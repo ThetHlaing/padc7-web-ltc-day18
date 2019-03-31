@@ -19,8 +19,7 @@ class ArticleList extends React.Component {
       console.log(articles);
       return articles.map((article, index) => {  
            
-        const author = users.find(obj => obj.id === article.created_by);
-        console.log(users,author,article);
+        const author = users.find(obj => obj.id == article.created_by);
         return <Article key={index} article={article} author={author} />;
       });
     }

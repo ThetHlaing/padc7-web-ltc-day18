@@ -5,7 +5,10 @@ import {
   Route,
   Link
 } from "react-router-dom";
-export default class DeleteArticle extends React.Component {
+import { connect } from 'react-redux';
+import { deleteArticle, fetchArticles } from '../../actions/articleActions';
+
+class DeleteArticle extends React.Component {
   constructor(props){
     super(props);
     this.state = {
@@ -42,7 +45,7 @@ export default class DeleteArticle extends React.Component {
             <h2>
               Are you sure you want to delete "{currentArticle.title}"?
             </h2>
-            <button onClick={this.props.deleteArticleEvent.bind(this,currentArticle.id,this.successDelete)}>Yes</button> <Link to={`/article/${currentArticle.id}`}>Cancel</Link>
+            <button onClick={this.props.deleteArticle.bind(this,currentArticle.id,this.successDelete)}>Yes</button> <Link to={`/article/${currentArticle.id}`}>Cancel</Link>
             <hr />
         </div>
         )}
@@ -50,3 +53,16 @@ export default class DeleteArticle extends React.Component {
     );
   }
 }
+
+const mapStateToProps = state =>({
+  articles : state.articles,
+  currentUser : state.currentUser
+})
+
+
+const mapDispatchToProps = {
+  fetchArticles,
+  deleteArticle
+}
+
+export default connect(mapStateToProps,mapDispatchToProps) (DeleteArticle);

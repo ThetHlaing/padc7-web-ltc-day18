@@ -12,6 +12,8 @@ const articles = (state = [], action) => {
         ];
       case 'FETCH_ARTICLES':
         return [...action.data]
+      case 'DELETE_ARTICLE':
+        return state.filter(item => item.id !== action.id)
       default:
         return state
     }

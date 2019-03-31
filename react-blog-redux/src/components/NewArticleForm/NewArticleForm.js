@@ -49,10 +49,13 @@ class NewArticleForm extends React.Component {
   }
 }
 
+const mapStateToProps = state => ({
+  currentUser : state.currentUser
+})
 
 
 const mapDispatchToProps = {
   insertArticle
 }
 
-export default connect(null,mapDispatchToProps)(NewArticleForm);
+export default connect(mapStateToProps,mapDispatchToProps)(NewArticleForm);

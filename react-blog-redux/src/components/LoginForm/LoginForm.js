@@ -6,27 +6,40 @@ import {
   Route,
   Link
 } from "react-router-dom";
+import { connect } from 'react-redux';
+import { loginUserEvent,fetchUsers } from '../../actions/userActions';
 
-export default class LoginForm extends React.Component {
+class LoginForm extends React.Component {
   constructor(props) {
     super(props);
     this.name = React.createRef();
     this.password = React.createRef();
+    this.props.fetchUsers();
   }
 
   state = { redirectToReferrer: false };
 
   handleOnSubmit = event => {
     event.preventDefault();
-    this.props.loginEvent(
-      {
-        name: this.name.current.value,
-        password: this.password.current.value
-      },
-      () => {
-        this.setState({ redirectToReferrer: true });
-      }
-    );
+
+    const name = this.name.current.value;
+    const password = this.password.current.value;
+
+    const currentUser = this.props.users.find( user => user.name === name && user.password === password )
+    console.log("Users",this.props.users);
+    
+    if(currentUser){
+      this.props.loginUserEvent(
+        currentUser,
+        () => {
+          this.setState({ redirectToReferrer: true });
+        }
+      );
+    }
+    else{
+      alert("Wrong password");
+    }
+   
   };
 
   render() {
@@ -49,3 +62,14 @@ export default class LoginForm extends React.Component {
     );
   }
 }
+
+const mapStateToProps = (state) => ({
+  users : state.users  
+});
+
+const mapDispatchToProps = {
+  loginUserEvent,
+  fetchUsers
+}
+
+export default connect(mapStateToProps,mapDispatchToProps)(LoginForm)

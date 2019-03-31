@@ -5,8 +5,18 @@ import {
   Route,
   Link
 } from "react-router-dom";
+import { connect } from 'react-redux';
+import { fetchArticles } from '../../actions/articleActions'
+import { fetchUsers } from '../../actions/userActions'
 
-export default class ArticleDetail extends React.Component{
+class ArticleDetail extends React.Component{
+
+    constructor(props){
+      super(props);
+      this.props.fetchArticles();
+      this.props.fetchUsers();
+    }
+
     render(){
         const id = this.props.match.params.id;
         const articles = this.props.articles;
@@ -39,3 +49,16 @@ export default class ArticleDetail extends React.Component{
      );
     }
 }
+
+const mapStateToProps = state => ({
+  articles : state.articles,
+  users : state.users,
+  currentUser : state.currentUser
+})
+
+const mapDispatchToProps = {
+  fetchArticles,
+  fetchUsers
+}
+
+export default connect (mapStateToProps,mapDispatchToProps)(ArticleDetail)

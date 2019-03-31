@@ -33,3 +33,11 @@ export const insertUser = (user, cb) => dispatch => {
 
   cb();
 };
+
+export const loginUserEvent = (user,cb) => dispatch =>{
+  dispatch({
+    type : "LOGIN",
+    user : user
+  });
+  cb();
+}
